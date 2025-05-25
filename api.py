@@ -191,29 +191,40 @@ def limpiar_texto(texto):
     return texto
 
 def preprocesar_texto(texto):
-    """
-    Preprocesamiento completo de texto.
-    """
-    # Obtener stopwords
-    stop_words = obtener_stopwords_extendidas()
+    # Convertir a minúsculas
+    texto_limpio = texto.lower()
     
-    # Limpiar texto
-    texto_limpio = limpiar_texto(texto)
+    # Eliminar signos de puntuación y números
+    texto_limpio = re.sub(r'[^\w\s]', ' ', texto_limpio)
+    texto_limpio = re.sub(r'\d+', ' ', texto_limpio)
     
-    # Tokenizar
-    tokens = word_tokenize(texto_limpio)
+    # Tokenizar manualmente (sin usar NLTK word_tokenize)
+    tokens = texto_limpio.split()
     
-    # Eliminar stopwords
-    tokens = [token for token in tokens if token not in stop_words]
+    # Eliminar stopwords (si NLTK stopwords está disponible)
+    try:
+        stop_words = set(stopwords.words('english'))
+        tokens = [token for token in tokens if token not in stop_words]
+    except:
+        # Si hay error con stopwords, usar una lista básica
+        basic_stopwords = {'a', 'an', 'the', 'and', 'or', 'but', 'if', 'because', 'as', 'what',
+                          'when', 'where', 'how', 'who', 'which', 'this', 'that', 'these', 'those',
+                          'then', 'just', 'so', 'than', 'such', 'both', 'through', 'about', 'for',
+                          'is', 'of', 'while', 'during', 'to', 'from', 'in', 'on', 'at', 'by', 'with'}
+        tokens = [token for token in tokens if token not in basic_stopwords]
     
-    # Lematizar
-    lemmatizer = WordNetLemmatizer()
-    tokens = [lemmatizer.lemmatize(token) for token in tokens]
+    # Lematizar (si NLTK lemmatizer está disponible)
+    try:
+        lemmatizer = WordNetLemmatizer()
+        tokens = [lemmatizer.lemmatize(token) for token in tokens]
+    except:
+        # Si hay error con lemmatizer, usar los tokens sin lematizar
+        pass
     
     # Unir tokens
-    texto_final = ' '.join(tokens)
+    texto_preprocesado = ' '.join(tokens)
     
-    return texto_final
+    return texto_preprocesado
 
 # Definir modelo de respuesta para la API
 # Definir los campos para cada género específico
