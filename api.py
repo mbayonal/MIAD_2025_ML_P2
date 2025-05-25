@@ -13,6 +13,30 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
+# Configurar directorio de datos de NLTK
+nltk.data.path.append('/home/ubuntu/nltk_data')
+
+# Descargar recursos de NLTK si no existen
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt', download_dir='/home/ubuntu/nltk_data')
+
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords', download_dir='/home/ubuntu/nltk_data')
+
+try:
+    nltk.data.find('corpora/wordnet')
+except LookupError:
+    nltk.download('wordnet', download_dir='/home/ubuntu/nltk_data')
+
+try:
+    nltk.data.find('corpora/omw-1.4')
+except LookupError:
+    nltk.download('omw-1.4', download_dir='/home/ubuntu/nltk_data')
+
 app = Flask(__name__)
 
 # Definición API Flask
