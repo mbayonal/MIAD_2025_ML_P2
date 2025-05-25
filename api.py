@@ -263,7 +263,7 @@ class MovieGenreApi(Resource):
 
 if __name__ == '__main__':
     # Configuración para entorno de producción
-    port = int(os.environ.get('PORT', 5001))  # Cambiado a puerto 5001
+    port = int(os.environ.get('PORT', 5000))  # Cambiado a puerto 5001
     print(f"Iniciando servidor API en http://localhost:{port}")
     print("Para probar el API, usa la siguiente URL (reemplaza 'sinopsis_ejemplo' con tu texto):")
     print(f"http://localhost:{port}/predict/?plot=sinopsis_ejemplo")
